@@ -1,0 +1,123 @@
+---
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
+import { Badge } from "./ui/badge";
+import { Icon } from "./ui/icon";
+import { List, ListItem } from "./ui/list";
+---
+
+<section>
+  <h1 class="font-medium tracking-tight">Experience</h1>
+
+  <div class="mt-14 space-y-7">
+    {
+      [
+        {
+          company: "Davis Materialworks",
+          role: "Fullstack Developer",
+          date: "Jan 2024 – Present",
+          achievements: [
+            "Architected and delivered scalable full-stack applications",
+            "Improved application performance by 40% through optimization",
+            "Led migration from monolithic to microservices architecture",
+          ],
+          techStack: [
+            "Next.js",
+            "TypeScript",
+            "Tailwind CSS",
+            "NestJS",
+            "PostgreSQL",
+            "Prisma",
+            "Redis",
+            "Docker",
+          ],
+        },
+        {
+          company: "TechNova Solutions",
+          role: "Frontend Developer",
+          date: "Jun 2022 – Dec 2023",
+          achievements: [
+            "Built reusable component library used across teams",
+            "Implemented advanced state management patterns",
+            "Reduced initial load time by 35%",
+          ],
+          techStack: [
+            "React",
+            "TypeScript",
+            "Zustand",
+            "React Query",
+            "Tailwind CSS",
+            "Vite",
+            "Storybook",
+            "Cypress",
+          ],
+        },
+        {
+          company: "PixelForge Studio",
+          role: "Junior Web Developer",
+          date: "Mar 2020 – May 2022",
+          achievements: [
+            "Developed and maintained 10+ client projects",
+            "Collaborated in agile environment with GitFlow",
+            "Created interactive client-facing dashboards",
+          ],
+          techStack: [
+            "React",
+            "JavaScript",
+            "Tailwind CSS",
+            "Firebase",
+            "Styled Components",
+            "Git",
+          ],
+        },
+      ].map((exp) => (
+        <Accordion class="text-sm">
+          <AccordionItem class="border-none">
+            <AccordionTrigger class="hover:no-underline">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full text-left gap-2">
+                <div>
+                  <div>{exp.role}</div>
+                  <div class="text-muted-foreground">{exp.company}</div>
+                </div>
+
+                <div class="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                  {exp.date}
+                </div>
+              </div>
+            </AccordionTrigger>
+
+            <AccordionContent>
+              <div class="prose-sm text-muted-foreground dark:prose-invert pt-1 pb-2 space-y-6">
+                <div>
+                  <h4 class="text-sm font-semibold mb-3">Key Achievements</h4>
+                  <List class="w-full space-y-2.5">
+                    {exp.achievements.map((item, i) => (
+                      <ListItem>
+                        <Icon
+                          name="check-circle"
+                          class="text-primary mt-0.5 h-4 w-4"
+                        />
+                        <span>{item}</span>
+                      </ListItem>
+                    ))}
+                  </List>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <div class="flex flex-wrap gap-2">
+            {exp.techStack.map((tech, i) => (
+              <Badge class="inline-flex items-center px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-medium">
+                {tech}
+              </Badge>
+            ))}
+          </div>
+        </Accordion>
+      ))
+    }
+  </div>
+</section>

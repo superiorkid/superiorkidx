@@ -1,0 +1,34 @@
+---
+import { Button } from "./ui/button";
+import { Icon } from "./ui/icon";
+---
+
+<section>
+  <h1 class="font-bold text-muted-foreground tracking-tight">Projects</h1>
+
+  <div class="space-y-12 mt-14">
+    {
+      Array.from({ length: 3 }).map((_) => (
+        <div class="flex items-start gap-10">
+          <h2 class="min-w-max text-sm font-semibold text-muted-foreground">
+            Mar 2024 - Jun 2024
+          </h2>
+          <div class="prose-sm text-muted-foreground prose-h4:font-semibold">
+            <h4>The Random Show</h4>
+            <p>
+              The Random Show is a great podcast, but the episodes can be hard
+              to track down as they're hosted in various places, on different
+              domains. So I made this little site to bring them all together.
+            </p>
+
+            <div>image here</div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <Button variant="outline" href="" class="w-full mt-8 cursor-pointer group"
+    >Show More <Icon name="arrow-up-right" /></Button
+  >
+</section>

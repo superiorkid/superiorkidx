@@ -1,0 +1,41 @@
+---
+import { ThemeProvider } from "@/components/ui/theme-toggle";
+
+import "../styles/globals.css";
+
+type Props = {
+  pageTitle?: string;
+};
+
+const { pageTitle } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <ThemeProvider />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    {
+      pageTitle ? (
+        <title>{pageTitle} - Moh. Ilhamuddin</title>
+      ) : (
+        <title>Moh. Ilhamuddin</title>
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<!-- <style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style> -->

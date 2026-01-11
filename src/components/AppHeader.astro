@@ -1,0 +1,47 @@
+---
+import { Button } from "./ui/button";
+import { Header, HeaderActions, HeaderContent } from "./ui/header";
+import { Icon } from "./ui/icon";
+import { Separator } from "./ui/separator";
+import { ThemeToggle } from "./ui/theme-toggle";
+---
+
+<Header variant="floating" class="px-4 mt-8 mx-auto">
+  <HeaderContent>
+    <HeaderActions>
+      <Button size="icon" variant="ghost">
+        <Icon name="home" />
+        <span class="sr-only">Home</span>
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Icon name="rss" />
+        <span class="sr-only">Blog</span>
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Icon name="blocks" />
+        <span class="sr-only">Projects</span>
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Icon name="file-user" />
+        <span class="sr-only">CV</span>
+      </Button>
+    </HeaderActions>
+
+    <HeaderActions class="ml-auto">
+      <Button size="icon" variant="ghost">
+        <Icon name="linkedin" />
+        <span class="sr-only">LinkedIn</span>
+      </Button>
+      <Button size="icon" variant="ghost">
+        <Icon name="mail" />
+        <span class="sr-only">Email</span>
+      </Button>
+      <Separator orientation="vertical" />
+      <ThemeToggle />
+      <!-- <Button size="icon" variant="ghost">
+        <Icon name="sun" />
+        <span class="sr-only">Theme Toggle</span>
+      </Button> -->
+    </HeaderActions>
+  </HeaderContent>
+</Header>
