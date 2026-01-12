@@ -1,13 +1,50 @@
 ---
 import AboutSection from "@/components/AboutSection.astro";
+import BlogSection from "@/components/BlogSection.astro";
 import ProjectSection from "@/components/ProjectSection.astro";
 import WorkExperience from "@/components/WorkExperience.astro";
+import type {
+  Availability,
+  ProfileSkeleton,
+} from "@/interfaces/profile.interface";
+import type { Skill } from "@/interfaces/skill.interface";
 import MainLayout from "@/layouts/MainLayout.astro";
-import BlogSection from "@/components/BlogSection.astro";
+import { contentfulClient } from "@/lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+
+const profileEntries = await contentfulClient.getEntries<ProfileSkeleton>({
+  content_type: "profile",
+  limit: 1,
+  "fields.availability[exists]": true,
+  "fields.cv[exists]": true,
+  include: 1,
+});
+
+const profile = profileEntries.items.at(0)?.fields;
+const availability = profile?.availability as unknown as Availability;
+
+const skills = profile?.skills.map(
+  // @ts-expect-error - sync type
+  (skill) => skill.fields
+) as unknown as Skill[];
+
+const summary = profile?.summary;
+const about = profile?.about;
+
+console.log("profile", profile);
 ---
 
 <MainLayout>
-  <AboutSection />
+  <AboutSection
+    avatar={profile?.avatar as string}
+    name={profile?.name as string}
+    role={profile?.role as string}
+    isAvailable={availability.status === "available"}
+    email={profile?.email as string}
+    skills={skills}
+    summary={documentToHtmlString(summary!)}
+    about={documentToHtmlString(about!)}
+  />
   <WorkExperience />
   <ProjectSection />
   <BlogSection />

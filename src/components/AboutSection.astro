@@ -1,104 +1,89 @@
 ---
+import type { Skill } from "@/interfaces/skill.interface";
 import { Button } from "./ui/button";
 import { Icon } from "./ui/icon";
 import { Image } from "./ui/image";
 import { Marquee, MarqueeContent } from "./ui/marquee";
 
-import me from "@/assets/me.png";
+type Props = {
+  avatar: string;
+  name: string;
+  role: string;
+  isAvailable: boolean;
+  email: string;
+  skills: Skill[];
+  summary: string;
+  about: string;
+};
 
-const items = [
-  { label: "Next JS", icon: "nextdotjs", url: "" },
-  { label: "React JS", icon: "react", url: "" },
-  { label: "Tailwind CSS", icon: "tailwindcss", url: "" },
-  { label: "Shadcn UI ", icon: "shadcnui", url: "" },
-  { label: "Laravel", icon: "laravel", url: "" },
-  { label: "Javascript", icon: "javascript", url: "" },
-  { label: "FastAPI", icon: "fastapi", url: "" },
-  { label: "PHP", icon: "php", url: "" },
-  { label: "Express JS", icon: "express", url: "" },
-  { label: "Prisma ORM", icon: "prisma", url: "" },
-  { label: "Nest JS", icon: "nestjs", url: "" },
-  { label: "Astro", icon: "astro", url: "" },
-  { label: "Drizzle ORM", icon: "drizzle", url: "" },
-  { label: "Python", icon: "python", url: "" },
-  { label: "Typescript", icon: "typescript", url: "" },
-  { label: "Hono", icon: "hono", url: "" },
-  { label: "Flask", icon: "flask", url: "" },
-  { label: "Jinja", icon: "jinja", url: "" },
-];
+const { avatar, isAvailable, name, role, email, skills, summary, about } =
+  Astro.props;
 ---
 
 <section class="space-y-10">
   <div class="flex items-center gap-4">
-    <Image src={me} alt="Moh Ilhamuddin" class="rounded-lg size-20" />
+    <Image src={avatar} alt={`${name} image`} class="rounded-lg size-20" />
+
     <div class="space-y-0.5">
-      <h1 class="font-medium tracking-tight">Moh Ilhamuddin</h1>
-      <p class="text-muted-foreground text-sm">Fullstack Developer</p>
+      <h1 class="font-medium tracking-tight">{name}</h1>
+      <p class="text-muted-foreground text-sm">{role}</p>
     </div>
   </div>
-  <div class="prose-sm text-muted-foreground prose-a:underline">
-    <p>
-      Working with TypeScript, React, and Next.js. I enjoy building
-      applications, component libraries and design systems.
-    </p>
-    <p>
-      I've been a developer for 13 years and worked with large clients like the
-      <strong>BBC, HMRC, SkyBet, WWF, and Microsoft</strong>. Further details
-      can be found <a href="#"> on my C.V.</a>.
-    </p>
-  </div>
-  <div class="flex items-center gap-2">
-    <div class="size-3 rounded-full bg-emerald-500 animate-pulse"></div>
-    <p class="text-sm font-semibold text-muted-foreground">
-      Currently available for new projects. <a
-        class="underline cursor-pointer underline-offset-4"
-        href="mailto:mohammad.ilhamuddin@gmail.com">Get in touch</a
-      >
-    </p>
-  </div>
-
-  <Button
-    variant="secondary"
-    size="sm"
-    class="cursor-pointer"
-    id="about-more-toggle"
-    >Show More
-  </Button>
-
   <div
-    class="prose-sm text-muted-foreground prose-a:underline hidden"
-    id="about-more"
-  >
-    <p>
-      For the last three years I led the front-end development of the new HMRC
-      Customs Search Service: a multipage Next.js application serving ~400
-      million records to an internal team of ~2000 staff.
-    </p>
-    <p>
-      Before that I built Next.js applications for millions of users at SkyBet.
-      Prior to that I led the front-end development at fintech company UAccount,
-      where I built a new front-end for a team of developers. In the past I also
-      led the development in creating a new front end & component library for
-      the World Wildlife Fund.
-    </p>
-    <p>
-      With over 5 years experience as a solo / lead developer I'm very
-      self-sufficient and can operate with high levels of autonomy. I've also
-      spent many years in large teams where I've mentored, paired, and trained
-      other members of staff.
-    </p>
-    <p>
-      In the past I've written articles that have been featured on multiple
-      publications, and recommended by an industry leader.
-    </p>
-  </div>
+    set:html={summary}
+    class="prose-sm text-muted-foreground prose-a:underline"
+  />
+  {
+    isAvailable ? (
+      <div class="flex items-center gap-2">
+        <div class="size-3 rounded-full bg-emerald-500 animate-pulse" />
+        <p class="text-sm font-semibold text-muted-foreground">
+          Currently available for new projects.{" "}
+          <a
+            class="underline cursor-pointer underline-offset-4"
+            href={`mailto:${email}`}
+          >
+            Get in touch
+          </a>
+        </p>
+      </div>
+    ) : (
+      <div class="flex items-center gap-2">
+        <div class="size-3 rounded-full bg-gray-400" />
+        <p class="text-sm font-semibold text-muted-foreground">
+          Currently unavailable for new projects.
+        </p>
+      </div>
+    )
+  }
+
+  {
+    about && (
+      <>
+        <Button
+          variant="secondary"
+          size="sm"
+          class="cursor-pointer"
+          id="about-more-toggle"
+        >
+          Show More
+        </Button>
+
+        <div
+          set:html={about}
+          class="prose-sm text-muted-foreground prose-a:underline hidden"
+          id="about-more"
+        />
+      </>
+    )
+  }
 
   <Marquee class="mask-x-from-95%">
     <MarqueeContent class="gap-9">
       {
-        items.map((item) => (
+        skills.map((skill) => (
           <Icon
-            name={item.icon}
+            name={skill.icon}
             class="size-7 fill-muted-foreground hover:fill-foreground"
           />
         ))
