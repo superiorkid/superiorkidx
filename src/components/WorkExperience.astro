@@ -1,4 +1,6 @@
 ---
+import type { Experience } from "@/interfaces/experience.interface";
+import { formattedDate } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +10,12 @@ import {
 import { Badge } from "./ui/badge";
 import { Icon } from "./ui/icon";
 import { List, ListItem } from "./ui/list";
+
+type Props = {
+  experiences: Experience[];
+};
+
+const { experiences } = Astro.props;
 ---
 
 <section>
@@ -15,77 +23,21 @@ import { List, ListItem } from "./ui/list";
 
   <div class="mt-14 space-y-7">
     {
-      [
-        {
-          company: "Davis Materialworks",
-          role: "Fullstack Developer",
-          date: "Jan 2024 – Present",
-          achievements: [
-            "Architected and delivered scalable full-stack applications",
-            "Improved application performance by 40% through optimization",
-            "Led migration from monolithic to microservices architecture",
-          ],
-          techStack: [
-            "Next.js",
-            "TypeScript",
-            "Tailwind CSS",
-            "NestJS",
-            "PostgreSQL",
-            "Prisma",
-            "Redis",
-            "Docker",
-          ],
-        },
-        {
-          company: "TechNova Solutions",
-          role: "Frontend Developer",
-          date: "Jun 2022 – Dec 2023",
-          achievements: [
-            "Built reusable component library used across teams",
-            "Implemented advanced state management patterns",
-            "Reduced initial load time by 35%",
-          ],
-          techStack: [
-            "React",
-            "TypeScript",
-            "Zustand",
-            "React Query",
-            "Tailwind CSS",
-            "Vite",
-            "Storybook",
-            "Cypress",
-          ],
-        },
-        {
-          company: "PixelForge Studio",
-          role: "Junior Web Developer",
-          date: "Mar 2020 – May 2022",
-          achievements: [
-            "Developed and maintained 10+ client projects",
-            "Collaborated in agile environment with GitFlow",
-            "Created interactive client-facing dashboards",
-          ],
-          techStack: [
-            "React",
-            "JavaScript",
-            "Tailwind CSS",
-            "Firebase",
-            "Styled Components",
-            "Git",
-          ],
-        },
-      ].map((exp) => (
+      experiences.map((experience) => (
         <Accordion class="text-sm">
           <AccordionItem class="border-none">
             <AccordionTrigger class="hover:no-underline">
               <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full text-left gap-2">
                 <div>
-                  <div>{exp.role}</div>
-                  <div class="text-muted-foreground">{exp.company}</div>
+                  <h3 class="capitalize">{experience.title}</h3>
+                  <div class="text-muted-foreground capitalize">
+                    {experience.company}
+                  </div>
                 </div>
 
                 <div class="text-sm text-muted-foreground font-medium whitespace-nowrap">
-                  {exp.date}
+                  {formattedDate(experience.startDate)} -{" "}
+                  {formattedDate(experience.endDate)}
                 </div>
               </div>
             </AccordionTrigger>
@@ -95,13 +47,13 @@ import { List, ListItem } from "./ui/list";
                 <div>
                   <h4 class="text-sm font-semibold mb-3">Key Achievements</h4>
                   <List class="w-full space-y-2.5">
-                    {exp.achievements.map((item, i) => (
+                    {experience?.archievements.map((archievement) => (
                       <ListItem>
                         <Icon
                           name="check-circle"
                           class="text-primary mt-0.5 h-4 w-4"
                         />
-                        <span>{item}</span>
+                        <span>{archievement}</span>
                       </ListItem>
                     ))}
                   </List>
@@ -110,9 +62,9 @@ import { List, ListItem } from "./ui/list";
             </AccordionContent>
           </AccordionItem>
           <div class="flex flex-wrap gap-2">
-            {exp.techStack.map((tech, i) => (
+            {experience.technologies.map((technology) => (
               <Badge class="inline-flex items-center px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-medium">
-                {tech}
+                {technology}
               </Badge>
             ))}
           </div>

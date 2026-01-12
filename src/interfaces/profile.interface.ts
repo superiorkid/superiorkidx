@@ -1,5 +1,7 @@
 import type { EntryFieldTypes } from "contentful";
 import type { SkillSkeleton } from "./skill.interface";
+import type { ExperienceSkeleton } from "./experience.interface";
+import type { ProjectSkeleton } from "./project.interface";
 
 export interface Availability {
   label: string;
@@ -20,5 +22,9 @@ export interface ProfileSkeleton {
     cv: EntryFieldTypes.Object;
     about: EntryFieldTypes.RichText;
     skills: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SkillSkeleton>>;
+    experiences: EntryFieldTypes.Array<
+      EntryFieldTypes.EntryLink<ExperienceSkeleton>
+    >;
+    projects: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ProjectSkeleton>>;
   };
 }

@@ -3,10 +3,12 @@ import AboutSection from "@/components/AboutSection.astro";
 import BlogSection from "@/components/BlogSection.astro";
 import ProjectSection from "@/components/ProjectSection.astro";
 import WorkExperience from "@/components/WorkExperience.astro";
+import type { Experience } from "@/interfaces/experience.interface";
 import type {
   Availability,
   ProfileSkeleton,
 } from "@/interfaces/profile.interface";
+import type { Project } from "@/interfaces/project.interface";
 import type { Skill } from "@/interfaces/skill.interface";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { contentfulClient } from "@/lib/contentful";
@@ -30,8 +32,19 @@ const skills = profile?.skills.map(
 
 const summary = profile?.summary;
 const about = profile?.about;
+const experiences = profile?.experiences.map(
+  // @ts-expect-error - sync types
+  (experience) => experience.fields
+) as unknown as Experience[];
+const projects = profile?.projects
+  .map(
+    // @ts-expect-error - sync types
+    (project) => project.fields
+  )
+  .slice(0, 3) as unknown as Project[];
 
 console.log("profile", profile);
+console.log("projects", projects);
 ---
 
 <MainLayout>
@@ -45,7 +58,7 @@ console.log("profile", profile);
     summary={documentToHtmlString(summary!)}
     about={documentToHtmlString(about!)}
   />
-  <WorkExperience />
-  <ProjectSection />
+  <WorkExperience experiences={experiences} />
+  <ProjectSection projects={projects} />
   <BlogSection />
 </MainLayout>
