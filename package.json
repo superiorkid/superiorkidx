@@ -9,8 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/react": "^4.4.2",
     "@contentful/rich-text-html-renderer": "^17.1.6",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
     "astro": "^5.16.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -18,6 +21,10 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.562.0",
     "lucide-static": "^0.562.0",
+    "marked": "^17.0.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-medium-image-zoom": "^5.4.0",
     "sharp": "^0.34.5",
     "simple-icons": "^16.5.0",
     "tailwind-merge": "^3.4.0",

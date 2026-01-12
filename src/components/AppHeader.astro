@@ -5,8 +5,18 @@ import { Header, HeaderActions, HeaderContent } from "./ui/header";
 import { Icon } from "./ui/icon";
 import { Separator } from "./ui/separator";
 import { ThemeToggle } from "./ui/theme-toggle";
+import { contentfulClient } from "@/lib/contentful";
+import type { ProfileSkeleton } from "@/interfaces/profile.interface";
 
 const { pathname } = Astro.url;
+
+const profileEntries = await contentfulClient.getEntries<ProfileSkeleton>({
+  content_type: "profile",
+  limit: 1,
+  select: ["fields.linkedinUrl", "fields.email"],
+});
+
+const profile = profileEntries.items.at(0)?.fields;
 ---
 
 <Header variant="floating" class="px-4 mt-8 mx-auto">
@@ -52,7 +62,7 @@ const { pathname } = Astro.url;
 
     <HeaderActions class="ml-auto">
       <Button
-        href="https://linkedin.com/in/superiorkid"
+        href={profile?.linkedinUrl}
         target="_blank"
         size="icon"
         variant="ghost"
@@ -60,11 +70,7 @@ const { pathname } = Astro.url;
         <Icon name="linkedin" />
         <span class="sr-only">LinkedIn</span>
       </Button>
-      <Button
-        href="mailto:mohammad.ilhamuddin@gmail.com"
-        size="icon"
-        variant="ghost"
-      >
+      <Button href={`mailto:${profile?.email}`} size="icon" variant="ghost">
         <Icon name="mail" />
         <span class="sr-only">Email</span>
       </Button>

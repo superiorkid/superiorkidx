@@ -3,48 +3,52 @@ import AboutSection from "@/components/AboutSection.astro";
 import BlogSection from "@/components/BlogSection.astro";
 import ProjectSection from "@/components/ProjectSection.astro";
 import WorkExperience from "@/components/WorkExperience.astro";
-import type { Experience } from "@/interfaces/experience.interface";
+import type { ExperienceSkeleton } from "@/interfaces/experience.interface";
 import type {
   Availability,
   ProfileSkeleton,
 } from "@/interfaces/profile.interface";
-import type { Project } from "@/interfaces/project.interface";
-import type { Skill } from "@/interfaces/skill.interface";
+import type { ProjectSkeleton } from "@/interfaces/project.interface";
+import type { SkillSkeleton } from "@/interfaces/skill.interface";
 import MainLayout from "@/layouts/MainLayout.astro";
 import { contentfulClient } from "@/lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { marked } from "marked";
 
-const profileEntries = await contentfulClient.getEntries<ProfileSkeleton>({
-  content_type: "profile",
-  limit: 1,
-  "fields.availability[exists]": true,
-  "fields.cv[exists]": true,
-  include: 1,
-});
+const [profileEntries, skillsEntries, experienceEntries, projectEntries] =
+  await Promise.all([
+    contentfulClient.getEntries<ProfileSkeleton>({
+      content_type: "profile",
+      limit: 1,
+    }),
+    contentfulClient.getEntries<SkillSkeleton>({
+      content_type: "skills",
+    }),
+    contentfulClient.getEntries<ExperienceSkeleton>({
+      content_type: "experience",
+      order: ["-fields.startDate"],
+    }),
+    contentfulClient.getEntries<ProjectSkeleton>({
+      content_type: "project",
+      limit: 3,
+      order: ["-fields.startDate"],
+    }),
+  ]);
 
 const profile = profileEntries.items.at(0)?.fields;
+const { summary, about } = profile || {};
 const availability = profile?.availability as unknown as Availability;
 
-const skills = profile?.skills.map(
-  // @ts-expect-error - sync type
-  (skill) => skill.fields
-) as unknown as Skill[];
-
-const summary = profile?.summary;
-const about = profile?.about;
-const experiences = profile?.experiences.map(
-  // @ts-expect-error - sync types
+const skills = skillsEntries.items.map((skill) => skill.fields);
+const experiences = experienceEntries.items.map(
   (experience) => experience.fields
-) as unknown as Experience[];
-const projects = profile?.projects
-  .map(
-    // @ts-expect-error - sync types
-    (project) => project.fields
-  )
-  .slice(0, 3) as unknown as Project[];
-
-console.log("profile", profile);
-console.log("projects", projects);
+);
+const projects = projectEntries.items
+  .map((projectField) => projectField.fields)
+  .map((project) => ({
+    ...project,
+    description: marked(project.description as unknown as string) as string,
+  }));
 ---
 
 <MainLayout>
@@ -58,7 +62,8 @@ console.log("projects", projects);
     summary={documentToHtmlString(summary!)}
     about={documentToHtmlString(about!)}
   />
-  <WorkExperience experiences={experiences} />
-  <ProjectSection projects={projects} />
+  <ProductSection />
+  {experiences && <WorkExperience experiences={experiences} />}
+  {projects && <ProjectSection projects={projects} showMoreButton />}
   <BlogSection />
 </MainLayout>

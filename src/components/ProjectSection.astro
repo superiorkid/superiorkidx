@@ -1,15 +1,18 @@
 ---
 import type { Project } from "@/interfaces/project.interface";
+import { cn, formattedDate } from "@/lib/utils";
+import { marked } from "marked";
 import { Button } from "./ui/button";
 import { Icon } from "./ui/icon";
-import { formattedDate } from "@/lib/utils";
 import { Image } from "./ui/image";
+import { ImageZoom } from "./ui/shadcn-io/image-zoom";
 
 type Props = {
   projects: Project[];
+  showMoreButton?: boolean;
 };
 
-const { projects } = Astro.props;
+const { projects, showMoreButton = false } = Astro.props;
 ---
 
 <section>
@@ -20,28 +23,39 @@ const { projects } = Astro.props;
       projects.map((project) => (
         <div class="flex items-start gap-10">
           <h2 class="min-w-max text-sm font-semibold text-muted-foreground">
-            {formattedDate(project.startDate)} -{" "}
-            {formattedDate(project.endDate)}
+            {formattedDate(new Date(project.startDate))} -{" "}
+            {formattedDate(new Date(project.endDate))}
           </h2>
-          <div class="prose-sm text-muted-foreground prose-h4:font-semibold">
+          <div class="prose-sm text-muted-foreground prose-h4:font-semibold prose-a:underline">
             {project.liveUrl || project.repoUrl ? (
               <h4 class="flex items-center gap-2 hover:text-foreground">
-                <a href={project.liveUrl ?? project.repoUrl}>{project.title}</a>
+                <a href={project.liveUrl ?? project.repoUrl} target="_blank">
+                  {project.title}
+                </a>
                 <Icon name="arrow-right" class="size-4" />
               </h4>
             ) : (
               <h4 class="hover:text-foreground">{project.title}</h4>
             )}
-            <p>{project.description}</p>
+            <p set:html={marked.parse(project.description)} />
 
-            {project.images && project.images.length && (
-              <div class="grid grid-cols-4 gap-2">
+            {project.images && project.images.length > 0 && (
+              <div class="grid grid-cols-4 gap-2 " data-pswp-gallery>
                 {project.images.map((image, index) => (
-                  <Image
-                    src={image}
-                    alt={`${project.title} image ${index}`}
-                    class="w-full"
-                  />
+                  <ImageZoom
+                    client:load
+                    backdropClassName={cn(
+                      '[&_[data-rmiz-modal-overlay="visible"]]:bg-black/80'
+                    )}
+                  >
+                    <Image
+                      src={image}
+                      height={900}
+                      alt={`${project.title} image ${index}`}
+                      class="h-auto max-w-96"
+                      width={1200}
+                    />
+                  </ImageZoom>
                 ))}
               </div>
             )}
@@ -50,8 +64,15 @@ const { projects } = Astro.props;
       ))
     }
   </div>
-
-  <Button variant="outline" href="" class="w-full mt-8 cursor-pointer group"
-    >Show More <Icon name="arrow-up-right" /></Button
-  >
+  {
+    showMoreButton && (
+      <Button
+        variant="outline"
+        href="/project"
+        class="w-full mt-8 cursor-pointer group"
+      >
+        Show More <Icon name="arrow-up-right" />
+      </Button>
+    )
+  }
 </section>

@@ -1,8 +1,22 @@
 ---
 import ProjectSection from "@/components/ProjectSection.astro";
+import type { ProjectSkeleton } from "@/interfaces/project.interface";
 import MainLayout from "@/layouts/MainLayout.astro";
+import { contentfulClient } from "@/lib/contentful";
+import { marked } from "marked";
+
+const projectEntries = await contentfulClient.getEntries<ProjectSkeleton>({
+  content_type: "project",
+  order: ["-fields.startDate"],
+});
+const projects = projectEntries.items
+  .map((projectField) => projectField.fields)
+  .map((project) => ({
+    ...project,
+    description: marked(project.description as unknown as string) as string,
+  }));
 ---
 
 <MainLayout pageTitle="Project">
-  <ProjectSection />
+  <ProjectSection projects={projects} />
 </MainLayout>

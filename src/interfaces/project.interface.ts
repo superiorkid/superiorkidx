@@ -16,8 +16,8 @@ export interface ProjectSkeleton {
 
 export interface Project {
   title: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   description: string;
   images: string[];
   technologies: string[];

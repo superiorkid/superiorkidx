@@ -21,23 +21,24 @@ const { experiences } = Astro.props;
 <section>
   <h1 class="font-medium tracking-tight">Experience</h1>
 
-  <div class="mt-14 space-y-7">
+  <div class="mt-14 space-y-2.5">
     {
       experiences.map((experience) => (
         <Accordion class="text-sm">
           <AccordionItem class="border-none">
             <AccordionTrigger class="hover:no-underline">
               <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between w-full text-left gap-2">
-                <div>
+                <div class="space-y-1">
                   <h3 class="capitalize">{experience.title}</h3>
                   <div class="text-muted-foreground capitalize">
-                    {experience.company}
+                    {experience.company}{" "}
+                    <span class="font-semibold">({experience.type})</span>
                   </div>
                 </div>
 
                 <div class="text-sm text-muted-foreground font-medium whitespace-nowrap">
-                  {formattedDate(experience.startDate)} -{" "}
-                  {formattedDate(experience.endDate)}
+                  {formattedDate(new Date(experience.startDate))} -{" "}
+                  {formattedDate(new Date(experience.endDate))}
                 </div>
               </div>
             </AccordionTrigger>
@@ -59,15 +60,15 @@ const { experiences } = Astro.props;
                   </List>
                 </div>
               </div>
+              <div class="flex flex-wrap gap-2">
+                {experience.technologies.map((technology) => (
+                  <Badge class="inline-flex items-center px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-medium">
+                    {technology}
+                  </Badge>
+                ))}
+              </div>
             </AccordionContent>
           </AccordionItem>
-          <div class="flex flex-wrap gap-2">
-            {experience.technologies.map((technology) => (
-              <Badge class="inline-flex items-center px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-medium">
-                {technology}
-              </Badge>
-            ))}
-          </div>
         </Accordion>
       ))
     }

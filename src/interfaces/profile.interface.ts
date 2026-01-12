@@ -17,6 +17,7 @@ export interface ProfileSkeleton {
     email: EntryFieldTypes.Text;
     role: EntryFieldTypes.Text;
     avatar: EntryFieldTypes.Text;
+    linkedinUrl: EntryFieldTypes.Text;
     summary: EntryFieldTypes.RichText;
     availability: EntryFieldTypes.Object;
     cv: EntryFieldTypes.Object;

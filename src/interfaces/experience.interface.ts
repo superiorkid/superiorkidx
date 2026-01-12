@@ -1,7 +1,7 @@
 import type { EntryFieldTypes } from "contentful";
 
 export interface ExperienceSkeleton {
-  contentTypeId: "experiences";
+  contentTypeId: "experience";
   fields: {
     title: EntryFieldTypes.Text;
     company: EntryFieldTypes.Text;
@@ -16,9 +16,10 @@ export interface ExperienceSkeleton {
 export interface Experience {
   title: string;
   company: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   technologies: string[];
   archievements: string[];
-  type: "full-time" | "contract" | "internship";
+  // type: "full-time" | "contract" | "internship";
+  type: string;
 }
