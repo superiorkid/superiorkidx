@@ -11,6 +11,8 @@ export interface ProjectSkeleton {
     technologies: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
     liveUrl: EntryFieldTypes.Text;
     repoUrl: EntryFieldTypes.Text;
+    type: EntryFieldTypes.Text;
+    summary: EntryFieldTypes.Text;
   };
 }
 
@@ -23,4 +25,6 @@ export interface Project {
   technologies: string[];
   liveUrl: string;
   repoUrl: string;
+  type: string;
+  summary: string;
 }

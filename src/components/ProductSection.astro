@@ -16,7 +16,7 @@ const { projects, showMoreButton = false } = Astro.props;
 ---
 
 <section>
-  <h1 class="font-medium tracking-tight">Featured Projects</h1>
+  <h1 class="font-medium tracking-tight">What I&apos;ve Built</h1>
 
   <div class="space-y-12 mt-14">
     {
@@ -37,6 +37,7 @@ const { projects, showMoreButton = false } = Astro.props;
             ) : (
               <h4 class="hover:text-foreground">{project.title}</h4>
             )}
+
             <p set:html={marked.parse(project.description)} />
 
             {project.images && project.images.length > 0 && (

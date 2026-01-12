@@ -31,7 +31,7 @@ const profile = profileEntries.items.at(0)?.fields;
         <Icon name="home" />
         <span class="sr-only">Home</span>
       </Button>
-      <Button
+      <!-- <Button
         href="/blog"
         size="icon"
         variant="ghost"
@@ -39,8 +39,8 @@ const profile = profileEntries.items.at(0)?.fields;
       >
         <Icon name="rss" />
         <span class="sr-only">Blog</span>
-      </Button>
-      <Button
+      </Button> -->
+      <!-- <Button
         href="/project"
         size="icon"
         variant="ghost"
@@ -48,7 +48,10 @@ const profile = profileEntries.items.at(0)?.fields;
       >
         <Icon name="blocks" />
         <span class="sr-only">Projects</span>
-      </Button>
+      </Button> -->
+    </HeaderActions>
+
+    <HeaderActions class="ml-auto">
       <Button
         href="/cv"
         size="icon"
@@ -58,9 +61,15 @@ const profile = profileEntries.items.at(0)?.fields;
         <Icon name="file-user" />
         <span class="sr-only">CV</span>
       </Button>
-    </HeaderActions>
-
-    <HeaderActions class="ml-auto">
+      <Button
+        href="/cv"
+        size="icon"
+        variant="ghost"
+        class={cn("cursor-pointer", pathname === "/cv" && "bg-accent")}
+      >
+        <Icon name="github" />
+        <span class="sr-only">Github</span>
+      </Button>
       <Button
         href={profile?.linkedinUrl}
         target="_blank"

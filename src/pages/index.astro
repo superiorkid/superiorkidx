@@ -1,6 +1,6 @@
 ---
 import AboutSection from "@/components/AboutSection.astro";
-import BlogSection from "@/components/BlogSection.astro";
+import ProductSection from "@/components/ProductSection.astro";
 import ProjectSection from "@/components/ProjectSection.astro";
 import WorkExperience from "@/components/WorkExperience.astro";
 import type { ExperienceSkeleton } from "@/interfaces/experience.interface";
@@ -15,25 +15,37 @@ import { contentfulClient } from "@/lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { marked } from "marked";
 
-const [profileEntries, skillsEntries, experienceEntries, projectEntries] =
-  await Promise.all([
-    contentfulClient.getEntries<ProfileSkeleton>({
-      content_type: "profile",
-      limit: 1,
-    }),
-    contentfulClient.getEntries<SkillSkeleton>({
-      content_type: "skills",
-    }),
-    contentfulClient.getEntries<ExperienceSkeleton>({
-      content_type: "experience",
-      order: ["-fields.startDate"],
-    }),
-    contentfulClient.getEntries<ProjectSkeleton>({
-      content_type: "project",
-      limit: 3,
-      order: ["-fields.startDate"],
-    }),
-  ]);
+const [
+  profileEntries,
+  skillsEntries,
+  experienceEntries,
+  projectEntries,
+  productEntries,
+] = await Promise.all([
+  contentfulClient.getEntries<ProfileSkeleton>({
+    content_type: "profile",
+    limit: 1,
+  }),
+  contentfulClient.getEntries<SkillSkeleton>({
+    content_type: "skills",
+  }),
+  contentfulClient.getEntries<ExperienceSkeleton>({
+    content_type: "experience",
+    order: ["-fields.startDate"],
+  }),
+  contentfulClient.getEntries<ProjectSkeleton>({
+    content_type: "project",
+    "fields.type": "project",
+    limit: 3,
+    order: ["-fields.startDate"],
+  }),
+  contentfulClient.getEntries<ProjectSkeleton>({
+    content_type: "project",
+    "fields.type": "product",
+    limit: 3,
+    order: ["-fields.startDate"],
+  }),
+]);
 
 const profile = profileEntries.items.at(0)?.fields;
 const { summary, about } = profile || {};
@@ -49,6 +61,12 @@ const projects = projectEntries.items
     ...project,
     description: marked(project.description as unknown as string) as string,
   }));
+const products = productEntries.items
+  .map((productField) => productField.fields)
+  .map((product) => ({
+    ...product,
+    description: marked(product.description as unknown as string) as string,
+  }));
 ---
 
 <MainLayout>
@@ -62,8 +80,12 @@ const projects = projectEntries.items
     summary={documentToHtmlString(summary!)}
     about={documentToHtmlString(about!)}
   />
-  <ProductSection />
   {experiences && <WorkExperience experiences={experiences} />}
+  {
+    products && (
+      <ProductSection projects={products} pageFor="product" showMoreButton />
+    )
+  }
   {projects && <ProjectSection projects={projects} showMoreButton />}
-  <BlogSection />
+  <!-- <BlogSection /> -->
 </MainLayout>
