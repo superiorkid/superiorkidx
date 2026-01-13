@@ -1,5 +1,15 @@
 ---
+import type { ProfileSkeleton } from "@/interfaces/profile.interface";
+import { contentfulClient } from "@/lib/contentful";
 import { Icon } from "./ui/icon";
+
+const profileEntries = await contentfulClient.getEntries<ProfileSkeleton>({
+  content_type: "profile",
+  limit: 1,
+  select: ["fields.linkedinUrl"],
+});
+
+const profile = profileEntries.items.at(0)?.fields;
 ---
 
 <footer class="py-8 border-t flex justify-center">
@@ -7,6 +17,10 @@ import { Icon } from "./ui/icon";
     Made with <Icon
       name="heart"
       class="fill-rose-500 stroke-rose-500 size-4 inline-flex mx-1"
-    /> by <a href="" class="font-medium underline">me</a>
+    /> by <a
+      href={profile?.linkedinUrl}
+      target="_blank"
+      class="font-medium underline">me</a
+    >
   </h1>
 </footer>
