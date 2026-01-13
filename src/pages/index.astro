@@ -81,11 +81,7 @@ const products = productEntries.items
     about={documentToHtmlString(about!)}
   />
   {experiences && <WorkExperience experiences={experiences} />}
-  {
-    products && (
-      <ProductSection projects={products} pageFor="product" showMoreButton />
-    )
-  }
+  {products && <ProductSection projects={products} showMoreButton />}
   {projects && <ProjectSection projects={projects} showMoreButton />}
   <!-- <BlogSection /> -->
 </MainLayout>

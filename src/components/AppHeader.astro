@@ -1,12 +1,12 @@
 ---
+import type { ProfileSkeleton } from "@/interfaces/profile.interface";
+import { contentfulClient } from "@/lib/contentful";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Header, HeaderActions, HeaderContent } from "./ui/header";
 import { Icon } from "./ui/icon";
 import { Separator } from "./ui/separator";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { contentfulClient } from "@/lib/contentful";
-import type { ProfileSkeleton } from "@/interfaces/profile.interface";
 
 const { pathname } = Astro.url;
 
@@ -60,15 +60,6 @@ const profile = profileEntries.items.at(0)?.fields;
       >
         <Icon name="file-user" />
         <span class="sr-only">CV</span>
-      </Button>
-      <Button
-        href="/cv"
-        size="icon"
-        variant="ghost"
-        class={cn("cursor-pointer", pathname === "/cv" && "bg-accent")}
-      >
-        <Icon name="github" />
-        <span class="sr-only">Github</span>
       </Button>
       <Button
         href={profile?.linkedinUrl}

@@ -1,0 +1,24 @@
+---
+import ProductSection from "@/components/ProductSection.astro";
+import ProjectSection from "@/components/ProjectSection.astro";
+import type { ProjectSkeleton } from "@/interfaces/project.interface";
+import MainLayout from "@/layouts/MainLayout.astro";
+import { contentfulClient } from "@/lib/contentful";
+import { marked } from "marked";
+
+const productEntries = await contentfulClient.getEntries<ProjectSkeleton>({
+  content_type: "project",
+  "fields.type": "product",
+  order: ["-fields.startDate"],
+});
+const projects = productEntries.items
+  .map((productField) => productField.fields)
+  .map((product) => ({
+    ...product,
+    description: marked(product.description as unknown as string) as string,
+  }));
+---
+
+<MainLayout pageTitle="Product">
+  <ProductSection projects={projects} />
+</MainLayout>

@@ -1,5 +1,8 @@
 ---
+import PdfViewer from "@/components/pdf-viewer";
 import MainLayout from "@/layouts/MainLayout.astro";
+
+import cvUrl from "/MOH_ILHAMUDDIN_CV_FULL_STACK.pdf";
 ---
 
 <MainLayout pageTitle="CV">
@@ -8,6 +11,8 @@ import MainLayout from "@/layouts/MainLayout.astro";
       Curiculum Vitae (CV)
     </h1>
 
-    <div class="space-y-8 mt-14">cv here</div>
+    <div class="space-y-8 mt-14 h-fit">
+      <PdfViewer client:only pdfUrl={cvUrl} />
+    </div>
   </section>
 </MainLayout>
