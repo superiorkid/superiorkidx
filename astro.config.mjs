@@ -19,6 +19,5 @@ export default defineConfig({
   integrations: [react()],
   adapter: vercel({
     webAnalytics: { enabled: true },
-    includeFiles: ["./MOH_ILHAMUDDIN_CV_FULL_STACK.pdf"],
   }),
 });
