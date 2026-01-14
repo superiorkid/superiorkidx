@@ -20,7 +20,7 @@ const profile = profileEntries.items.at(0)?.fields;
     </h1>
 
     <div class="space-y-8 mt-14 h-fit">
-      <PdfViewer client:only="react" pdfUrl={profile?.cvUrl as string} />
+      <PdfViewer client:only pdfUrl={profile?.cvUrl as string} />
     </div>
   </section>
 </MainLayout>
