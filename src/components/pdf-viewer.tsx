@@ -10,11 +10,11 @@ import "./pdf-viewer.css";
 
 import type { PDFDocumentProxy } from "pdfjs-dist";
 
-const options = {
-  cMapUrl: "/cmaps/",
-  standardFontDataUrl: "/standard_fonts/",
-  wasmUrl: "/wasm/",
-};
+// const options = {
+//   cMapUrl: "/cmaps/",
+//   standardFontDataUrl: "/standard_fonts/",
+//   wasmUrl: "/wasm/",
+// };
 
 const resizeObserverOptions = {};
 
@@ -28,6 +28,8 @@ const PdfViewer = ({ pdfUrl }: PdfViewerProps) => {
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
+
+  console.log("pdfURL from react component", pdfUrl);
 
   const onResize = useCallback<ResizeObserverCallback>((entries) => {
     const [entry] = entries;
@@ -53,7 +55,7 @@ const PdfViewer = ({ pdfUrl }: PdfViewerProps) => {
             file={pdfUrl}
             // @ts-expect-error - 00
             onLoadSuccess={onDocumentLoadSuccess}
-            options={options}
+            // options={options}
           >
             {Array.from(new Array(numPages), (_el, index) => (
               <Page

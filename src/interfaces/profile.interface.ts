@@ -8,6 +8,7 @@ export interface Availability {
   status: "available" | "unavailable";
   ctaLink: string;
   ctaText: string;
+  cvUrl: string;
 }
 
 export interface ProfileSkeleton {
@@ -27,5 +28,6 @@ export interface ProfileSkeleton {
       EntryFieldTypes.EntryLink<ExperienceSkeleton>
     >;
     projects: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ProjectSkeleton>>;
+    cvUrl: EntryFieldTypes.Text;
   };
 }

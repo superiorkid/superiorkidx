@@ -1,8 +1,16 @@
 ---
 import PdfViewer from "@/components/pdf-viewer";
+import type { ProfileSkeleton } from "@/interfaces/profile.interface";
 import MainLayout from "@/layouts/MainLayout.astro";
+import { contentfulClient } from "@/lib/contentful";
 
-import cvUrl from "/MOH_ILHAMUDDIN_CV_FULL_STACK.pdf";
+const profileEntries = await contentfulClient.getEntries<ProfileSkeleton>({
+  content_type: "profile",
+  limit: 1,
+  select: ["fields.cvUrl"],
+});
+
+const profile = profileEntries.items.at(0)?.fields;
 ---
 
 <MainLayout pageTitle="CV">
@@ -12,7 +20,7 @@ import cvUrl from "/MOH_ILHAMUDDIN_CV_FULL_STACK.pdf";
     </h1>
 
     <div class="space-y-8 mt-14 h-fit">
-      <PdfViewer client:only pdfUrl={cvUrl} />
+      <PdfViewer client:only="react" pdfUrl={profile?.cvUrl as string} />
     </div>
   </section>
 </MainLayout>
